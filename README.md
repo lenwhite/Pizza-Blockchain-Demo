@@ -4,10 +4,10 @@ A set of DApps and a blockchain to demonstrate the basic principles of a blockch
 
 ## Development
 
-```
-docker-compose up -d
+``` bash
+make start
 ```
 
 ## Production
 
-Needs to ignore docker-compose.override.yml
+TBD
