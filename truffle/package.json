@@ -1,0 +1,19 @@
+{
+  "name": "pizza-truffle",
+  "version": "1.0.0",
+  "description": "Latest version of truffle because why not. Nothing will break for sure! (Should really use fix one version of truffle, but we can get to it when something does break).",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "openzeppelin-solidity": "^2.2.0"
+  },
+  "devDependencies": {}
+}

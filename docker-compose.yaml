@@ -21,7 +21,7 @@ services:
   truffle:
     build: ./truffle
     volumes:
-      - ./truffle/truffle-config.js:/truffle/truffle-config.js
+      - ./truffle/truffle.js:/truffle/truffle.js
       - ./truffle/contracts:/truffle/contracts
       - ./truffle/migrations:/truffle/migrations
       - ./truffle/test:/truffle/test
