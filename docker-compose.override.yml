@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+
+  ui:
+    build:
+      context: ./ui
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./ui/src:/app/src/delegated
+    ports:
+      - "3000:3000"
+
+  api:
+    build:
+      context: ./api
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./api/dist:/app/dist
+      - ./api/contracts:/app/contracts
+      - ./api/package.json:/app/package.json
+    ports:
+      - "4000:4000"

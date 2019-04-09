@@ -1,0 +1,53 @@
+version: '3.7'
+
+services:
+
+  ui:
+    build: ./ui
+    ports:
+     - "80:80"
+    logging:
+      options:
+        max-size: 10m
+
+  api:
+    build: ./api
+    ports:
+      - "4000:80"
+    logging:
+      options:
+        max-size: 10m
+
+  truffle:
+    build: ./truffle
+    volumes:
+      - ./truffle/truffle-config.js:/truffle/truffle-config.js
+      - ./truffle/contracts:/truffle/contracts
+      - ./truffle/migrations:/truffle/migrations
+      - ./truffle/test:/truffle/test
+      - ./api/contracts:/truffle/build/contracts
+    command: >
+      sh -c "rm build/contracts/* ;
+             truffle migrate --network default --reset --compile-all"
+    depends_on:
+      - blockchain
+    environment:
+      BLOCKCHAIN_NETWORK: 'blockchain'
+    logging:
+      options:
+        max-size: 10m
+
+  blockchain:
+    image: trufflesuite/ganache-cli:latest
+    ports:
+      - "8545:8545"
+    logging:
+      options:
+        max-size: 10m
+
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: pizzachain
+    ports:
+      - "27017:27017"
