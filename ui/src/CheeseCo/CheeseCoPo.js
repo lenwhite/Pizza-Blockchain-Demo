@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -6,17 +6,19 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import InputGroup from 'react-bootstrap/InputGroup';
 
 const CheeseCoPo = props => {
-  return <div className="container">
+  return <div className="container mt-3">
     In manual mode, Cheese Co. will receive an email / SMS / letter with the requested
     quantity of cheese...
     <hr />
     <Form>
       <Form.Group controlId="formPo">
-        <Form.Label>Deliver To</Form.Label>
+        <Form.Label>From</Form.Label>
         <Form.Control as="select" className="mb-3">
           <option>{`Dough Co.`}</option>
           <option>{`Pizza Co.`}</option>
         </Form.Control>
+        <Form.Label>Reference</Form.Label>
+        <Form.Control as="input" className="mb-3" />
         <Form.Label>Quantity</Form.Label>
         <InputGroup className="mb-3">
           <Form.Control as="input" />

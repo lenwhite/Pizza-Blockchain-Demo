@@ -12,9 +12,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
-.container, .container-fluid {
-  margin-right: auto;
-  margin-left: auto;
-  max-width: 950px;
-}
