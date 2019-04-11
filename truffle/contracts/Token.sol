@@ -2,13 +2,13 @@ pragma solidity >=0.4.21 <0.6.0;
 
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/utils/Address.sol";
-import "openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
+import "openzeppelin-solidity/contracts/token/ERC721/ERC721Enumerable.sol";
 
 /** To simplify matters, we can just be using this one single ERC 721-compliant
     token for everything.
  */
 
-contract Token is ERC721 {
+contract Token is ERC721Enumerable {
 
   using Address for address;
   using SafeMath for uint256;
@@ -18,24 +18,22 @@ contract Token is ERC721 {
   mapping (uint256 => bytes) private _tokenData;
 
   /**
-   * @dev Mints a new token without data
+   * @dev Mints a new token without data to msg.sender
    * Reverts if the given token ID already exists
-   * @param to address to mint to
    * @param tokenId tokenId uint256 ID of the token to mint
    */
-  function mint(address to, uint256 tokenId) public {
-    _mint(to, tokenId);
+  function mint(uint256 tokenId) public {
+    _mint(msg.sender, tokenId);
   }
 
   /**
-   * @dev Mints a new token with data
+   * @dev Mints a new token with data to msg.sender
    * Reverts if the given token ID already exists
-   * @param to The address to mint to
    * @param tokenId uint256 ID of the token to mint
    * @param tokenData bytes array of data to associate with the token
    */
-  function mint(address to, uint256 tokenId, bytes memory tokenData) public {
-    _mint(to, tokenId);
+  function mint(uint256 tokenId, bytes memory tokenData) public {
+    _mint(msg.sender, tokenId);
     _tokenData[tokenId] = tokenData;
   }
 
@@ -68,6 +66,14 @@ contract Token is ERC721 {
   function setData(uint tokenId, bytes memory tokenData) public {
     require(_isApprovedOrOwner(msg.sender, tokenId));
     _tokenData[tokenId] = tokenData;
+  }
+
+  /**
+   * @dev Retrieve a list of owned token of msg.sender
+   * @return uint256 array of token ids owned
+   */
+  function tokensOwned() public view returns (uint256[] memory) {
+    return _tokensOfOwner(msg.sender);
   }
 
 }

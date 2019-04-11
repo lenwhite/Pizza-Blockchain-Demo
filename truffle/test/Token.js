@@ -10,7 +10,8 @@ const Token = artifacts.require("./Token.sol");
 const {
   hexToBytes,
   toHex,
-  bytesToHex
+  bytesToHex,
+  BN
 } = web3.utils;
 
 contract('Token', accounts => {
@@ -26,11 +27,11 @@ contract('Token', accounts => {
     // Compressed json data in some format
     newData: 'eNp9kU1PwzAMhu9I/Icq52VKu3UrOyHYaULsACcQh9CaNqiNqySdQNP+O276sSJNkyqlsR+/jl8fb2+CgNUGsyZ1bBOwJ3WAYPeyfw5y0GCkQ8NmHjqAsQo1QYt52IUMlCAtbKWDtjYS4ZKLFY/iVyE2/psLId56gQwqJMyZBrpATYpe8NheKaAyuoTRYhnP+oiWlZfeYaGDLQIbEnWBGuy5lkIFdmwiBCcRvoxX64GndIWfquyA9doDbSfW5U+DLlRSlQS9j3Xf2T38yKouYZ5iNRGcJNDkvdDHIJSRKfuvB2Vc0fYM7xLBRchFdMkb72WurAMD2dQj/yIwtIv09xG1k6mz09eN00+9khqmXp398sMnCY/jmIYPo38ELVM6WrAtVN2CtsbGAhuI0+xqz8Y6pa90HS2nrqNkb1l70P/pD5DgmBc=',
 
-  }
+  };
 
   it("Mint a token without data", async () => {
 
-    await tokenContract.mint(accounts[0], token.id);
+    await tokenContract.mint(token.id);
 
     let balance = await tokenContract.balanceOf(accounts[0]);
     assert.equal(balance.toNumber(), 1);
@@ -44,10 +45,23 @@ contract('Token', accounts => {
     assert.equal(balance.toNumber(), 0);
   })
 
+  it("Enumerate owned tokens", async () => {
+    await tokenContract.mint('1', { from: accounts[1] });
+    await tokenContract.mint('2', { from: accounts[1] });
+
+    let response = await tokenContract.tokensOwned({ from: accounts[1] });
+
+    assert.deepEqual(response.map(BN => BN.toNumber()), [1, 2]);
+
+    await tokenContract.burn('1', { from: accounts[1] });
+    await tokenContract.burn('2', { from: accounts[1] });
+
+  })
+
   it("Mint a token with data", async () => {
     token.dataAsBytes = hexToBytes(toHex(token.data));
 
-    await tokenContract.mint(accounts[0], token.id, token.dataAsBytes);
+    await tokenContract.mint(token.id, token.dataAsBytes);
 
     let balance = await tokenContract.balanceOf(accounts[0]);
     assert.equal(balance.toNumber(), 1);
