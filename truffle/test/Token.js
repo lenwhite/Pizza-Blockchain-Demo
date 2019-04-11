@@ -34,7 +34,7 @@ contract('Token', accounts => {
     await tokenContract.mint(token.id);
 
     let balance = await tokenContract.balanceOf(accounts[0]);
-    assert.equal(balance.toNumber(), 1);
+    assert.equal(balance.toNumber(), 1, "Balance not incremented");
 
   });
 
@@ -42,7 +42,7 @@ contract('Token', accounts => {
     await tokenContract.burn(token.id);
 
     let balance = await tokenContract.balanceOf(accounts[0]);
-    assert.equal(balance.toNumber(), 0);
+    assert.equal(balance.toNumber(), 0, "Balance not decremented");
   })
 
   it("Enumerate owned tokens", async () => {
@@ -51,7 +51,10 @@ contract('Token', accounts => {
 
     let response = await tokenContract.tokensOwned({ from: accounts[1] });
 
-    assert.deepEqual(response.map(BN => BN.toNumber()), [1, 2]);
+    assert.deepEqual(
+      response.map(BN => BN.toNumber()), [1, 2],
+      "Minted tokens not enumerated correctly"
+    );
 
     await tokenContract.burn('1', { from: accounts[1] });
     await tokenContract.burn('2', { from: accounts[1] });
@@ -64,10 +67,10 @@ contract('Token', accounts => {
     await tokenContract.mint(token.id, token.dataAsBytes);
 
     let balance = await tokenContract.balanceOf(accounts[0]);
-    assert.equal(balance.toNumber(), 1);
+    assert.equal(balance.toNumber(), 1, "Balance not incremented");
 
     let response = await tokenContract.getData(token.id);
-    assert.equal(response, toHex(token.data));
+    assert.equal(response, toHex(token.data), "Data not retrieved correctly");
   });
 
   it("Sets data of a minted token", async () => {
@@ -76,15 +79,18 @@ contract('Token', accounts => {
     await tokenContract.setData(token.id, token.newDataAsBytes);
 
     let response = await tokenContract.getData(token.id);
-    assert.equal(response, toHex(token.newData));
+    assert.equal(response, toHex(token.newData), "Data not changed correctly");
   })
 
   it("Burn the token with data", async () => {
     await tokenContract.burn(token.id);
 
     let balance = await tokenContract.balanceOf(accounts[0]);
-    assert.equal(balance.toNumber(), 0);
+    assert.equal(balance.toNumber(), 0, "Balance not decremented");
 
-    assert.isRejected(tokenContract.getData(token.id));
+    assert.isRejected(
+      tokenContract.getData(token.id),
+      "Can still retrieve data from burnt token"
+    );
   })
 });
