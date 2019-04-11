@@ -18,25 +18,27 @@ const CheeseCo = props => {
       <title>Cheese Co.</title>
     </Helmet>
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand>Cheese Co.</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse>
-        <Nav className="mx-auto">
-          <LinkContainer to={`${match.url}/po`}>
-            <Nav.Link>Add PO</Nav.Link>
-          </LinkContainer>
-          <LinkContainer to={`${match.url}/mint`}>
-            <Nav.Link>Fill PO</Nav.Link>
-          </LinkContainer>
-          <LinkContainer to={`${match.url}/track`}>
-            <Nav.Link>Track PO</Nav.Link>
-          </LinkContainer>
-          <Nav.Link>Payment</Nav.Link>
-        </Nav>
-        <Navbar.Text>
-          PizzaBucks balance: 0 PB
+      <div className="container">
+        <Navbar.Brand>Cheese Co.</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse>
+          <Nav className="mx-auto">
+            <LinkContainer to={`${match.url}/po`}>
+              <Nav.Link>Add PO</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to={`${match.url}/mint`}>
+              <Nav.Link>Fill PO</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to={`${match.url}/track`}>
+              <Nav.Link>Track PO</Nav.Link>
+            </LinkContainer>
+            <Nav.Link>Payment</Nav.Link>
+          </Nav>
+          <Navbar.Text>
+            PizzaBucks balance: 0 PB
         </Navbar.Text>
-      </Navbar.Collapse>
+        </Navbar.Collapse>
+      </div>
     </Navbar>
     <Switch>
       <Route path={`${match.url}/po`} component={CheeseCoPo} />
