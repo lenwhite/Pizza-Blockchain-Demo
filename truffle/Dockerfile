@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:11-alpine
 
 RUN mkdir /truffle
 WORKDIR /truffle

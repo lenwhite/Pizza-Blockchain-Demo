@@ -14,6 +14,8 @@ services:
     build: ./api
     ports:
       - "4000:80"
+    depends_on:
+      - truffle
     logging:
       options:
         max-size: 10m

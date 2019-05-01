@@ -15,9 +15,25 @@ services:
     build:
       context: ./api
       dockerfile: dev.Dockerfile
+    image: pizza-api
     volumes:
       - ./api/dist:/app/dist
       - ./api/contracts:/app/contracts
       - ./api/package.json:/app/package.json
     ports:
-      - "4000:4000"
+      - 3001:4000
+    depends_on:
+      - truffle
+      - api-watch
+    command: npm run dev
+
+  api-watch:
+    image: pizza-api
+    command: npm run watch
+    volumes:
+      - ./api/src:/app/src
+      - ./api/dist:/app/dist
+      - ./api/.babelrc:/app/.babelrc
+    depends_on:
+      - truffle
+
