@@ -25,6 +25,8 @@ services:
     depends_on:
       - truffle
       - api-watch
+    environment:
+      WEB3_PROVIDER: 'http://blockchain:8545'
     command: npm run dev
 
   api-watch:
