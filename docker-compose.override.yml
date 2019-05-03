@@ -21,12 +21,13 @@ services:
       - ./api/contracts:/app/contracts
       - ./api/package.json:/app/package.json
     ports:
-      - 3001:4000
+      - 3001:3001
     depends_on:
       - truffle
       - api-watch
     environment:
       WEB3_PROVIDER: 'http://blockchain:8545'
+      PORT: 3001
     command: npm run dev
 
   api-watch:
