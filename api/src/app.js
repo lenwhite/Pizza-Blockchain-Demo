@@ -2,7 +2,7 @@ import express from 'express';
 import tokenRouter from './routes/Token.route';
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 6000;
 
 app.use(function (req, res, next) {
   // Website you wish to allow to connect
@@ -24,3 +24,4 @@ app.get('/', (req, res) => res.send('Hello World!'));
 app.use('/Token', tokenRouter);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+

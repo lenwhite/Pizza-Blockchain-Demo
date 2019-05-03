@@ -26,7 +26,7 @@ router.delete('/:tokenId', async (req, res, next) => {
   try {
     let response = await burn(tokenId);
     return res
-      .status(201)
+      .status(200)
       .jsonp({
         success: true,
         message: `${tokenId} successesfully burnt`,

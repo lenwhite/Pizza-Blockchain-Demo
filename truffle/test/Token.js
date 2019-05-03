@@ -3,7 +3,7 @@ const chaiAsPromised = require("chai-as-promised");
 
 chai.use(chaiAsPromised);
 
-assert = chai.assert;
+const assert = chai.assert;
 
 const Token = artifacts.require("./Token.sol");
 

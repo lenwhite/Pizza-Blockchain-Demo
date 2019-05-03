@@ -25,4 +25,4 @@ export const burn = async (tokenId) => {
   const response = await TokenContractInstance.burn(tokenId, {from: account});
 
   return response;
-}
+};
