@@ -19,11 +19,9 @@ services:
     volumes:
       - ./api/dist:/app/dist
       - ./api/contracts:/app/contracts
-      - ./api/package.json:/app/package.json
     ports:
       - 3001:3001
     depends_on:
-      - truffle
       - api-watch
     environment:
       WEB3_PROVIDER: 'http://blockchain:8545'
@@ -36,7 +34,18 @@ services:
     volumes:
       - ./api/src:/app/src
       - ./api/dist:/app/dist
-      - ./api/.babelrc:/app/.babelrc
     depends_on:
       - truffle
+
+  api-test:
+    image: pizza-api
+    depends_on:
+      - api
+    volumes:
+      - ./api/dist:/app/dist
+      - ./api/test:/app/test
+      - ./api/contracts:/app/contracts
+    environment:
+      API_URL: 'http://api:3001'
+    command: npm test
 

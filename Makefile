@@ -6,3 +6,4 @@ start:
 	# docker stack deploy pizza --compose-file docker-compose.yml
 test:
 	docker-compose run --no-deps --rm truffle truffle test
+	docker-compose up api-test

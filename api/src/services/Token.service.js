@@ -9,11 +9,13 @@ TokenContract.setProvider(web3.currentProvider);
 
 const accountNumber = process.env.ACCOUNT_NUMBER || 0;
 
-export const mint = async (tokenId) => {
+export const mint = async (tokenId, body) => {
   const account = (await web3.eth.getAccounts())[accountNumber];
   const TokenContractInstance = await TokenContract.deployed();
-
-  const response = await TokenContractInstance.mint(tokenId, { from: account });
+  let response;
+  if (!body) {
+    response = await TokenContractInstance.mint(tokenId, { from: account });
+  }
 
   return response;
 };
@@ -22,7 +24,7 @@ export const burn = async (tokenId) => {
   const account = (await web3.eth.getAccounts())[accountNumber];
   const TokenContractInstance = await TokenContract.deployed();
 
-  const response = await TokenContractInstance.burn(tokenId, {from: account});
+  const response = await TokenContractInstance.burn(tokenId, { from: account });
 
   return response;
 };
