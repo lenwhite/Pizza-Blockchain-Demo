@@ -14,8 +14,15 @@ export const mint = async (tokenId) => {
   const TokenContractInstance = await TokenContract.deployed();
 
   const response = await TokenContractInstance.mint(tokenId, { from: account });
-  console.log(tokenId);
-  console.log(response);
-  return response;
 
+  return response;
+};
+
+export const burn = async (tokenId) => {
+  const account = (await web3.eth.getAccounts())[accountNumber];
+  const TokenContractInstance = await TokenContract.deployed();
+
+  const response = await TokenContractInstance.burn(tokenId, {from: account});
+
+  return response;
 }
