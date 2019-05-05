@@ -21,7 +21,9 @@ let TokenContractInstance;
   const account = (await web3.eth.getAccounts())[accountNumber];
 
   TokenContract.defaults({
-    from: account
+    from: account,
+    gas: 999999,
+    gasPrice: 0,
   })
 
   TokenContractInstance = await TokenContract.deployed();
@@ -39,7 +41,7 @@ export const mint = async (tokenId, data) => {
   } else {
     let compressedData = JSON.stringify(data);
     compressedData = hexToBytes(toHex(compressedData));
-    
+
     response = await TokenContractInstance.mint(
       tokenId, compressedData
     );
