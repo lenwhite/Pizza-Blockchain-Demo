@@ -7,7 +7,13 @@ const router = express.Router({ mergeParams: true });
 router.put('/:tokenId', async (req, res, next) => {
   const { tokenId } = req.params;
   try {
-    let response = await mint(tokenId);
+    let response;
+    if (Object.entries(req.body).length === 0) { // req.body is empty
+      response = await mint(tokenId);
+    } else {
+      response = await mint(toString, req.body);
+    }
+
     return res
       .status(201)
       .jsonp({

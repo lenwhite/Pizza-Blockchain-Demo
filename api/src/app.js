@@ -1,5 +1,6 @@
 import express from 'express';
 import tokenRouter from './routes/Token.route';
+import bodyParser from 'body-parser';
 
 const app = express();
 const port = process.env.PORT || 6000;
@@ -18,7 +19,10 @@ app.use(function (req, res, next) {
   next();
 });
 
-
+app.use(bodyParser.json({ type: 'application/json'})); 
+//app.use(bodyParser.json());                                     
+//app.use(bodyParser.urlencoded({extended: true}));               
+//app.use(bodyParser.text());     
 
 app.get('/', (req, res) => res.send('Hello World!'));
 app.use('/Token', tokenRouter);
