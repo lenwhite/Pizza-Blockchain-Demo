@@ -1,16 +1,14 @@
 import contract from 'truffle-contract';
-import Web3 from 'web3';
 import tokenContractJson from '../../contracts/Token.json';
+import web3 from '../web3';
 import zlib from 'zlib';
 import util from 'util';
-
-const web3 = new Web3(new Web3.providers.HttpProvider(process.env.WEB3_PROVIDER));
 
 const {
   hexToBytes,
   toHex,
   bytesToHex,
-  BN
+  BN,
 } = web3.utils;
 
 const deflate = util.promisify(zlib.deflateRaw);
@@ -86,4 +84,10 @@ export const getData = async (tokenId) => {
   return JSON.parse(
     (await inflate(Buffer.from(response.slice(2), 'hex'))).toString()
   );
+};
+
+export const transfer = async (tokenId, toAddress) => {
+  const response = await TokenContractInstance.transfer(toAddress, tokenId);
+
+  return response;
 }

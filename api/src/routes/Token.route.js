@@ -1,6 +1,7 @@
 import express from 'express';
+import web3 from 'web3';
 
-import { mint, burn, getData, setData } from '../services/Token.service';
+import { mint, burn, getData, setData, transfer } from '../services/Token.service';
 
 const router = express.Router({ mergeParams: true });
 
@@ -65,6 +66,36 @@ router.post('/:tokenId', async (req, res, next) => {
   const { tokenId } = req.params;
   try {
     let response = await setData(tokenId, req.body);
+    return res
+      .status(200)
+      .jsonp({
+        success: true,
+        message: `${tokenId} updated`,
+        data: response,
+      });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).jsonp({ success: false, message: err.message });
+  }
+});
+
+/**
+ * Expects to address { address: to } in req.body
+ */
+router.post('/transfer/:tokenId', async (req, res, next) => {
+  const { tokenId } = req.params;
+
+  const { address } = req.body;
+
+  if (!address || !web3.utils.isAddress(address)) {
+    return res.status(400).jsonp({
+      success: false,
+      message: 'invalid transfer to address',
+    })
+  }
+
+  try {
+    let response = await transfer(tokenId, address);
     return res
       .status(200)
       .jsonp({

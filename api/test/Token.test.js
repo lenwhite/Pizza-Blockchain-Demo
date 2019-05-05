@@ -1,9 +1,8 @@
 process.env.NODE_ENV = 'test';
-// TODO: switch to a test blockchain for testing purposes
+// TODO: connect to a test blockchain for testing purposes
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-//const app = require('../dist/app');
 
 const app = process.env.API_URL || 'http://localhost:3001';
 
