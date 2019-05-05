@@ -14,8 +14,8 @@ chai.use(chaiHttp);
 const token = {
   id: 1234567890,
   data: {
-    asdf: `qwerty`,
-    name: `Victa Phu`
+    foo: `qwerty`,
+    name: `Vic Phu`
   },
 }
 
@@ -34,5 +34,16 @@ describe('Token', () => {
   it('Mint token with data', async () => {
     const response = await chai.request(app).put(`/Token/${token.id}`).send(token.data);
     assert.equal(response.status, 201);
+  });
+
+  it('Retrieve data from token', async () => {
+    const response = await chai.request(app).get(`/Token/${token.id}`);
+    assert.equal(response.status, 200);
+    assert.deepEqual(response.body.data, token.data);
+  });
+
+  it('Burn the minted token', async() => {
+    const response = await chai.request(app).delete(`/Token/${token.id}`);
+    assert.equal(response.status, 200);
   });
 });
