@@ -4,27 +4,52 @@ import tokenContractJson from '../../contracts/Token.json';
 
 const web3 = new Web3(new Web3.providers.HttpProvider(process.env.WEB3_PROVIDER));
 
+const {
+  hexToBytes,
+  toHex,
+  bytesToHex,
+  BN
+} = web3.utils;
+
 const TokenContract = contract(tokenContractJson);
 TokenContract.setProvider(web3.currentProvider);
 
 const accountNumber = process.env.ACCOUNT_NUMBER || 0;
 
-export const mint = async (tokenId, body) => {
+let TokenContractInstance;
+(async () => {
   const account = (await web3.eth.getAccounts())[accountNumber];
-  const TokenContractInstance = await TokenContract.deployed();
+
+  TokenContract.defaults({
+    from: account
+  })
+
+  TokenContractInstance = await TokenContract.deployed();
+
+  console.log('Successfully connected to Token contract.');
+})().catch(err => {
+  console.error('Failed to connect to Token contract.');
+  console.error(err);
+});
+
+export const mint = async (tokenId, data) => {
   let response;
-  if (!body) {
-    response = await TokenContractInstance.mint(tokenId, { from: account });
+  if (!data) {
+    response = await TokenContractInstance.mint(tokenId);
+  } else {
+    let compressedData = JSON.stringify(data);
+    compressedData = hexToBytes(toHex(compressedData));
+    
+    response = await TokenContractInstance.mint(
+      tokenId, compressedData
+    );
   }
 
   return response;
 };
 
 export const burn = async (tokenId) => {
-  const account = (await web3.eth.getAccounts())[accountNumber];
-  const TokenContractInstance = await TokenContract.deployed();
-
-  const response = await TokenContractInstance.burn(tokenId, { from: account });
+  const response = await TokenContractInstance.burn(tokenId);
 
   return response;
 };
