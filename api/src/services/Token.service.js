@@ -51,8 +51,6 @@ export const mint = async (tokenId, data) => {
 
     compressedData = hexToBytes('0x' + compressedData);
 
-    console.log(`Data length: ${compressedData.length}`);
-
     response = await TokenContractInstance.mint(
       tokenId, compressedData
     );
@@ -60,6 +58,21 @@ export const mint = async (tokenId, data) => {
 
   return response;
 };
+
+export const setData = async (tokenId, data) => {
+  let compressedData = JSON.stringify(data);
+
+  compressedData = (await deflate(compressedData)).toString('hex');
+
+  compressedData = hexToBytes('0x' + compressedData);
+
+  let response = await TokenContractInstance.setData(
+    tokenId, compressedData
+  );
+
+  return response;
+}
+
 
 export const burn = async (tokenId) => {
   const response = await TokenContractInstance.burn(tokenId);

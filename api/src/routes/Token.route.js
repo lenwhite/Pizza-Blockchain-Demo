@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { mint, burn, getData } from '../services/Token.service';
+import { mint, burn, getData, setData } from '../services/Token.service';
 
 const router = express.Router({ mergeParams: true });
 
@@ -44,8 +44,6 @@ router.delete('/:tokenId', async (req, res, next) => {
   }
 });
 
-export default router;
-
 router.get('/:tokenId', async (req, res, next) => {
   const { tokenId } = req.params;
   try {
@@ -62,3 +60,22 @@ router.get('/:tokenId', async (req, res, next) => {
     return res.status(500).jsonp({ success: false, message: err.message });
   }
 });
+
+router.post('/:tokenId', async (req, res, next) => {
+  const { tokenId } = req.params;
+  try {
+    let response = await setData(tokenId, req.body);
+    return res
+      .status(200)
+      .jsonp({
+        success: true,
+        message: `${tokenId} updated`,
+        data: response,
+      });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).jsonp({ success: false, message: err.message });
+  }
+});
+
+export default router;

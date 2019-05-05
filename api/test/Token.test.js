@@ -26,7 +26,7 @@ describe('Token', () => {
     assert.equal(response.status, 201);
   });
 
-  it('Burn the minted token', async() => {
+  it('Burn the minted token', async () => {
     const response = await chai.request(app).delete(`/Token/${token.id}`);
     assert.equal(response.status, 200);
   });
@@ -42,7 +42,17 @@ describe('Token', () => {
     assert.deepEqual(response.body.data, token.data);
   });
 
-  it('Burn the minted token', async() => {
+  it('Update data in token', async () => {
+    let response = await chai.request(app).post(`/Token/${token.id}`).send(
+      { ...token.data, lastUpdated: '6666-66-66' }
+    );
+    assert.equal(response.status, 200);
+
+    response = await chai.request(app).get(`/Token/${token.id}`);
+    assert.equal(response.body.data.lastUpdated, '6666-66-66');
+  });
+
+  it('Burn the minted token', async () => {
     const response = await chai.request(app).delete(`/Token/${token.id}`);
     assert.equal(response.status, 200);
   });
