@@ -46,7 +46,7 @@ services:
     logging:
       options:
         max-size: 10m
-    command: "-p 0"
+    command: "-g 0"
 
   mongo:
     image: mongo:latest
