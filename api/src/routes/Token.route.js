@@ -12,7 +12,7 @@ router.put('/:tokenId', async (req, res, next) => {
       .status(201)
       .jsonp({
         success: true,
-        message: `${tokenId} successesfully minted`,
+        message: `${tokenId} successfully minted`,
         data: response,
       });
   } catch (err) {
@@ -29,7 +29,7 @@ router.delete('/:tokenId', async (req, res, next) => {
       .status(200)
       .jsonp({
         success: true,
-        message: `${tokenId} successesfully burnt`,
+        message: `${tokenId} successfully burnt`,
         data: response,
       });
   } catch (err) {
