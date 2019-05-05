@@ -5,7 +5,7 @@ import "openzeppelin-solidity/contracts/utils/Address.sol";
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721Enumerable.sol";
 
 /** To simplify matters, we can just be using this one single ERC 721-compliant
-    token for everything.
+    token for all items shipped/ tracked on the blockchain (cheese, flour, etc.)
  */
 
 contract Token is ERC721Enumerable {
@@ -74,6 +74,20 @@ contract Token is ERC721Enumerable {
    */
   function tokensOwned() public view returns (uint256[] memory) {
     return _tokensOfOwner(msg.sender);
+  }
+
+  /**
+   * @dev Safely transfers the ownership of a given token ID to another address
+   * If the target address is a contract, it must implement `onERC721Received`,
+   * which is called upon a safe transfer, and return the magic value
+   * `bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))`; otherwise,
+   * the transfer is reverted.
+   * Requires the msg.sender to be the owner
+   * @param to address to receive the ownership of the given token ID
+   * @param tokenId uint256 ID of the token to be transferred
+   */
+  function transfer(address to, uint256 tokenId) public {
+    safeTransferFrom(msg.sender, to, tokenId, "");
   }
 
 }

@@ -80,12 +80,22 @@ contract('Token', accounts => {
 
     let response = await tokenContract.getData(token.id);
     assert.equal(response, toHex(token.newData), "Data not changed correctly");
-  })
+  });
 
-  it("Burn the token with data", async () => {
-    await tokenContract.burn(token.id);
+  it("Transfer the minted token", async () => {
+    await tokenContract.transfer(accounts[2], token.id);
 
     let balance = await tokenContract.balanceOf(accounts[0]);
+    assert.equal(balance.toNumber(), 0, "Balance not decremented");
+
+    balance = await tokenContract.balanceOf(accounts[2]);
+    assert.equal(balance.toNumber(), 1, "Balance not incremented");
+  });
+
+  it("Burn the token with data", async () => {
+    await tokenContract.burn(token.id, { from: accounts[2] });
+
+    let balance = await tokenContract.balanceOf(accounts[2]);
     assert.equal(balance.toNumber(), 0, "Balance not decremented");
 
     assert.isRejected(
