@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, Menu, Grid, Segment, Header } from 'semantic-ui-react';
+import { Menu, Grid, Segment, Header } from 'semantic-ui-react';
 
 const CheeseCoInventory = () => {
   return <>

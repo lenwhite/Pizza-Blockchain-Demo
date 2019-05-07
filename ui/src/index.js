@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+import { Provider } from 'react-redux';
+import store from './store';
+
 import 'semantic-ui-css/semantic.min.css';
 
 import { Helmet } from 'react-helmet';
@@ -14,19 +17,21 @@ import CheeseCo from './CheeseCo/CheeseCo';
 class App extends Component {
   render() {
     return (
-      <Router>
-        <Helmet>
+      <Provider store={store}>
+        <Router>
+          <Helmet>
 
-        </Helmet>
-        <Switch>
-          <Route path="/pizza_co" component={PizzaCo} />
-          <Route path="/cheese_co" component={CheeseCo} />
-          {/* 404 page placeholder*/}
-          <Route component={() => <>OOPSIE WOOPSIE!! 
-          Uwu We made a fucky wucky!! A wittle fucko boingo! 
+          </Helmet>
+          <Switch>
+            <Route path="/pizza_co" component={PizzaCo} />
+            <Route path="/cheese_co" component={CheeseCo} />
+            {/* 404 page placeholder*/}
+            <Route component={() => <>OOPSIE WOOPSIE!!
+            Uwu We made a fucky wucky!! A wittle fucko boingo!
           The code monkeys at our headquarters are working VEWY HAWD to fix this!</>} />
-        </Switch>
-      </Router>
+          </Switch>
+        </Router>
+      </Provider>
     );
   }
 }
