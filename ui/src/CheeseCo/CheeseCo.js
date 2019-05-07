@@ -2,9 +2,10 @@ import React from 'react';
 
 import { Helmet } from 'react-helmet';
 import { Route, Switch } from 'react-router-dom';
-import { LinkContainer } from 'react-router-bootstrap';
-import Navbar from 'react-bootstrap/Navbar'
-import Nav from 'react-bootstrap/Nav'
+
+import { Menu, Container } from 'semantic-ui-react';
+import { NavLink } from 'react-router-dom';
+
 import CheeseCoPo from './CheeseCoPo';
 import CheeseCoFillPo from './CheeseCoFillPo';
 import CheeseCoTrack from './CheeseCoTrack';
@@ -17,29 +18,17 @@ const CheeseCo = props => {
     <Helmet>
       <title>Cheese Co.</title>
     </Helmet>
-    <Navbar bg="light" expand="lg">
-      <div className="container">
-        <Navbar.Brand>Cheese Co.</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse>
-          <Nav className="mx-auto">
-            <LinkContainer to={`${match.url}/po`}>
-              <Nav.Link>Add PO</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to={`${match.url}/mint`}>
-              <Nav.Link>Fill PO</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to={`${match.url}/track`}>
-              <Nav.Link>Track PO</Nav.Link>
-            </LinkContainer>
-            <Nav.Link>Payment</Nav.Link>
-          </Nav>
-          <Navbar.Text>
-            PizzaBucks balance: 0 PB
-        </Navbar.Text>
-        </Navbar.Collapse>
-      </div>
-    </Navbar>
+    <Container>
+      <Menu stackable>
+
+        <Menu.Item header>Cheese Co.</Menu.Item>
+        <Menu.Item name='Add PO' as={NavLink} to={`${match.url}/po`} />
+        <Menu.Item name='Fill PO' as={NavLink} to={`${match.url}/mint`} />
+        <Menu.Item name='Track PO' as={NavLink} to={`${match.url}/track`} />
+        <Menu.Item name='Payment' />
+        <Menu.Item position='right'>PizzaBucks balance: 0 PB</Menu.Item>
+      </Menu>
+    </Container>
     <Switch>
       <Route path={`${match.url}/po`} component={CheeseCoPo} />
       <Route path={`${match.url}/mint`} component={CheeseCoFillPo} />

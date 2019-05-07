@@ -1,48 +1,39 @@
 import React from 'react';
 
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import InputGroup from 'react-bootstrap/InputGroup';
+import { Container, Form, Input, Label } from 'semantic-ui-react';
 
-const CheeseCoPo = props => {
-  return <div className="container mt-3">
-    In manual mode, Cheese Co. will receive an email / SMS / letter with the requested
-    quantity of cheese...
+const CheeseCoPo = () => {
+  return <>
+    <Container text>
+      In manual mode, Cheese Co. will receive an email / SMS / letter with the requested
+        quantity of cheese...
     <hr />
-    <Form>
-      <Form.Group controlId="formPo">
-        <Form.Label>From</Form.Label>
-        <Form.Control as="select" className="mb-3">
+      <Form>
+        <Form.Field label='From' control='select'>
           <option>{`Dough Co.`}</option>
           <option>{`Pizza Co.`}</option>
-        </Form.Control>
-        <Form.Label>Reference</Form.Label>
-        <Form.Control as="input" className="mb-3" />
-        <Form.Label>Quantity</Form.Label>
-        <InputGroup className="mb-3">
-          <Form.Control as="input" />
-          <InputGroup.Append>
-            <InputGroup.Text>kg</InputGroup.Text>
-          </InputGroup.Append>
-        </InputGroup>
-        <Form.Label>Price</Form.Label>
-        <InputGroup className="mb-3">
-          <InputGroup.Prepend>
-            <InputGroup.Text>$</InputGroup.Text>
-          </InputGroup.Prepend>
-          <Form.Control as="input" />
-          <InputGroup.Append>
-            <InputGroup.Text>per kg</InputGroup.Text>
-          </InputGroup.Append>
-        </InputGroup>
-        <ButtonToolbar className="justify-content-between">
-          <Button variant="primary">Submit</Button>
-          <Button variant="secondary">Reset</Button>
-        </ButtonToolbar>
-      </Form.Group>
-    </Form>
-  </div>
+        </Form.Field>
+        <Form.Field label='Reference' control='input' />
+        <Form.Field>
+          <label>Quantity</label>
+          <Input type='text' labelPosition='right'>
+            <input />
+            <Label basic>kg</Label>
+          </Input>
+        </Form.Field>
+        <Form.Field>
+          <label>Quantity</label>
+          <Input type='text' labelPosition='right'>
+            <Label basic>$</Label>
+            <input />
+            <Label basic>per kg</Label>
+          </Input>
+        </Form.Field>
+        <Form.Button>Submit</Form.Button>
+      </Form>
+
+    </Container>
+  </>
 }
 
 export default CheeseCoPo;
