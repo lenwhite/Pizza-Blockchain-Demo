@@ -6,7 +6,7 @@ import rootReducer from './reducers/reducers';
 
 //const sagaMiddleware = createSagaMiddleware();
 
-export default function configStore() {
+function configStore() {
 
   const store = createStore(
     rootReducer,
@@ -21,3 +21,7 @@ export default function configStore() {
 
   return store;
 }
+
+const store = configStore();
+
+export default store;
