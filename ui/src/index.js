@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './index.css';
 import PizzaCo from './PizzaCo/PizzaCo';
 import CheeseCo from './CheeseCo/CheeseCo';
+import Overview from './Overview/Ovewrview';
 
 
 
@@ -24,8 +25,9 @@ class App extends Component {
 
           </Helmet>
           <Switch>
-            <Route path="/pizza_co" component={PizzaCo} />
-            <Route path="/cheese_co" component={CheeseCo} />
+            <Route path='/' exact component={Overview} />
+            <Route path='/pizza_co' component={PizzaCo} />
+            <Route path='/cheese_co' component={CheeseCo} />
             {/* 404 page placeholder*/}
             <Route component={() => <>OOPSIE WOOPSIE!!
             Uwu We made a fucky wucky!! A wittle fucko boingo!
