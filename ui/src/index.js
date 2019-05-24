@@ -12,7 +12,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './index.css';
 import PizzaCo from './PizzaCo/PizzaCo';
 import CheeseCo from './CheeseCo/CheeseCo';
-import Overview from './Overview/Ovewrview';
+import Overview from './Overview/Overview';
 
 
 
