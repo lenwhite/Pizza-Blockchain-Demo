@@ -46,7 +46,8 @@ services:
     logging:
       options:
         max-size: 10m
-    command: "-g 0"
+    command: "-g 0 --mnemonic 'coin body ivory lecture miss hawk hobby uphold federal luxury bracket urban'"
+    # hard-coding the mnemonic to always get the same addresses
 
   #mongo:
   #  image: mongo:latest
