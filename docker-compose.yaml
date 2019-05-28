@@ -48,9 +48,9 @@ services:
         max-size: 10m
     command: "-g 0"
 
-  mongo:
-    image: mongo:latest
-    environment:
-      MONGO_INITDB_DATABASE: pizzachain
-    ports:
-      - "27017:27017"
+  #mongo:
+  #  image: mongo:latest
+  #  environment:
+  #    MONGO_INITDB_DATABASE: pizzachain
+  #  ports:
+  #    - "27017:27017"
