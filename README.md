@@ -5,8 +5,10 @@ A set of DApps and a blockchain to demonstrate the basic principles of a blockch
 ## Development
 
 ``` bash
-make start
+make dev
 ```
+
+Nodejs 11 is required. Nodejs 12 does not work.
 
 ## Tests
 

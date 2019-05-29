@@ -7,12 +7,14 @@ const router = express.Router({ mergeParams: true });
 
 router.put('/:tokenId', async (req, res, next) => {
   const { tokenId } = req.params;
+  const { user } = req.auth;
+
   try {
     let response;
     if (Object.entries(req.body).length === 0) { // req.body is empty
-      response = await mint(tokenId);
+      response = await mint(tokenId, false, user);
     } else {
-      response = await mint(tokenId, req.body);
+      response = await mint(tokenId, req.body, user);
     }
 
     return res
@@ -30,8 +32,9 @@ router.put('/:tokenId', async (req, res, next) => {
 
 router.delete('/:tokenId', async (req, res, next) => {
   const { tokenId } = req.params;
+  const { user } = req.auth;
   try {
-    let response = await burn(tokenId);
+    let response = await burn(tokenId, user);
     return res
       .status(200)
       .jsonp({
@@ -47,8 +50,9 @@ router.delete('/:tokenId', async (req, res, next) => {
 
 router.get('/:tokenId', async (req, res, next) => {
   const { tokenId } = req.params;
+  const { user } = req.auth;
   try {
-    let response = await getData(tokenId);
+    let response = await getData(tokenId, user);
     return res
       .status(200)
       .jsonp({
@@ -64,8 +68,9 @@ router.get('/:tokenId', async (req, res, next) => {
 
 router.post('/:tokenId', async (req, res, next) => {
   const { tokenId } = req.params;
+  const { user } = req.auth;
   try {
-    let response = await setData(tokenId, req.body);
+    let response = await setData(tokenId, req.body, user);
     return res
       .status(200)
       .jsonp({
@@ -84,8 +89,8 @@ router.post('/:tokenId', async (req, res, next) => {
  */
 router.post('/transfer/:tokenId', async (req, res, next) => {
   const { tokenId } = req.params;
-
   const { address } = req.body;
+  const { user } = req.auth;
 
   if (!address || !web3.utils.isAddress(address)) {
     return res.status(400).jsonp({
@@ -95,7 +100,7 @@ router.post('/transfer/:tokenId', async (req, res, next) => {
   }
 
   try {
-    let response = await transfer(tokenId, address);
+    let response = await transfer(tokenId, address, user);
     return res
       .status(200)
       .jsonp({
