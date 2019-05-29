@@ -25,6 +25,11 @@ describe('Token', () => {
     assert.equal(response.status, 201);
   });
 
+  it('Another party burns the minted token', async () => {
+    const response = await chai.request(app).delete(`/Token/${token.id}`).auth('flour', '');
+    assert.notEqual(response.status, 200);
+  });
+
   it('Burn the minted token', async () => {
     const response = await chai.request(app).delete(`/Token/${token.id}`).auth('pizza', '');
     assert.equal(response.status, 200);

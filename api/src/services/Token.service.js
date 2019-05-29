@@ -4,6 +4,8 @@ import web3 from '../web3';
 import zlib from 'zlib';
 import util from 'util';
 
+import CONFIG from '../CONFIG';
+
 const {
   hexToBytes,
   toHex,
@@ -17,18 +19,16 @@ const inflate = util.promisify(zlib.inflateRaw);
 const TokenContract = contract(tokenContractJson);
 TokenContract.setProvider(web3.currentProvider);
 
-const accountNumber = process.env.ACCOUNT_NUMBER || 0;
-
 let TokenContractInstance;
 
 (async () => {
-  const account = (await web3.eth.getAccounts())[accountNumber];
+  const account = (await web3.eth.getAccounts())[0];
 
   TokenContract.defaults({
     from: account,
     gas: 999999,
     gasPrice: 0,
-  })
+  });
 
   TokenContractInstance = await TokenContract.deployed();
 
@@ -38,7 +38,9 @@ let TokenContractInstance;
   console.error(err);
 });
 
-export const mint = async (tokenId, data) => {
+export const mint = async (tokenId, data, user) => {
+  TokenContract.defaults({ from: CONFIG[user].address });
+
   let response;
   if (!data) {
     response = await TokenContractInstance.mint(tokenId);
@@ -57,7 +59,9 @@ export const mint = async (tokenId, data) => {
   return response;
 };
 
-export const setData = async (tokenId, data) => {
+export const setData = async (tokenId, data, user) => {
+  TokenContract.defaults({ from: CONFIG[user].address });
+
   let compressedData = JSON.stringify(data);
 
   compressedData = (await deflate(compressedData)).toString('hex');
@@ -72,13 +76,17 @@ export const setData = async (tokenId, data) => {
 }
 
 
-export const burn = async (tokenId) => {
+export const burn = async (tokenId, user) => {
+  TokenContract.defaults({ from: CONFIG[user].address });
+
   const response = await TokenContractInstance.burn(tokenId);
 
   return response;
 };
 
-export const getData = async (tokenId) => {
+export const getData = async (tokenId, user) => {
+  TokenContract.defaults({ from: CONFIG[user].address });
+
   const response = await TokenContractInstance.getData(tokenId);
 
   return JSON.parse(
@@ -86,7 +94,9 @@ export const getData = async (tokenId) => {
   );
 };
 
-export const transfer = async (tokenId, toAddress) => {
+export const transfer = async (tokenId, toAddress, user) => {
+  TokenContract.defaults({ from: CONFIG[user].address });
+
   const response = await TokenContractInstance.transfer(toAddress, tokenId);
 
   return response;

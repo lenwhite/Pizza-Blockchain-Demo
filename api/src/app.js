@@ -23,18 +23,13 @@ app.use(function (req, res, next) {
 });
 
 app.use(basicAuth({
-  // custom authorizer that only checks that userName matches any userName
-  // defined in config file
+  // custom authorizer that only checks that userName matches any entity defined in config file
   authorizer: (userName) => {
-    let isMatch = false;
 
-    Object.keys(CONFIG).forEach(entity => {
-      if (userName === CONFIG[entity].userName) {
-        isMatch = true;
-      }
-    });
+    if (CONFIG[userName])
+      return true;
 
-    return isMatch;
+    return false;
   }
 }));
 
