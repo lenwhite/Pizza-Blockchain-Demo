@@ -8,7 +8,7 @@ COPY ./contracts ./contracts
 COPY ./test ./test
 RUN npm install
 
-ENV TRUFFLE_VERSION=latest
+ENV TRUFFLE_VERSION=5.0.18
 RUN npm install -g truffle@${TRUFFLE_VERSION}
 
 # Run truffle compile once to cache a copy of solc
