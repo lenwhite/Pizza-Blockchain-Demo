@@ -47,17 +47,17 @@ contract('Token', accounts => {
 
   it("Enumerate owned tokens", async () => {
     await tokenContract.mint('1', { from: accounts[1] });
-    await tokenContract.mint('2', { from: accounts[1] });
+    await tokenContract.mint('2193817321', { from: accounts[1] });
 
     let response = await tokenContract.tokensOwned({ from: accounts[1] });
 
     assert.deepEqual(
-      response.map(BN => BN.toNumber()), [1, 2],
+      response.map(BN => BN.toNumber()), [1, 2193817321],
       "Minted tokens not enumerated correctly"
     );
 
     await tokenContract.burn('1', { from: accounts[1] });
-    await tokenContract.burn('2', { from: accounts[1] });
+    await tokenContract.burn('2193817321', { from: accounts[1] });
 
   })
 

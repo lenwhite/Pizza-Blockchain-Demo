@@ -1,9 +1,29 @@
 import express from 'express';
 import web3 from 'web3';
 
-import { mint, burn, getData, setData, transfer } from '../services/Token.service';
+import { mint, burn, getData, setData, transfer, tokensOwned } from '../services/Token.service';
 
 const router = express.Router({ mergeParams: true });
+
+router.get('/', async (req, res, next) => {
+  const { user } = req.auth;
+
+  try {
+    let response = await tokensOwned(user);
+
+    return res.
+      status(200)
+      .jsonp({
+        success: true,
+        message: `Token listing for ${user} retrieved`,
+        data: response
+      });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).jsonp({ success: false, message: err.message });
+  }
+
+});
 
 router.put('/:tokenId', async (req, res, next) => {
   const { tokenId } = req.params;

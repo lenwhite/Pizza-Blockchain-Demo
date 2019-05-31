@@ -75,7 +75,6 @@ export const setData = async (tokenId, data, user) => {
   return response;
 }
 
-
 export const burn = async (tokenId, user) => {
   TokenContract.defaults({ from: CONFIG[user].address });
 
@@ -89,9 +88,13 @@ export const getData = async (tokenId, user) => {
 
   const response = await TokenContractInstance.getData(tokenId);
 
-  return JSON.parse(
-    (await inflate(Buffer.from(response.slice(2), 'hex'))).toString()
-  );
+  if (response) {
+    return JSON.parse(
+      (await inflate(Buffer.from(response.slice(2), 'hex'))).toString()
+    );
+  } else {
+    return null;
+  };
 };
 
 export const transfer = async (tokenId, toAddress, user) => {
@@ -100,4 +103,20 @@ export const transfer = async (tokenId, toAddress, user) => {
   const response = await TokenContractInstance.transfer(toAddress, tokenId);
 
   return response;
+}
+
+export const tokensOwned = async (user) => {
+  TokenContract.defaults({ from: CONFIG[user].address });
+
+  const response = await TokenContractInstance.tokensOwned();
+
+  if (!response) return null;
+
+  let tokens = {};
+
+  for (const tokenId of response.map(BN => BN.toNumber())) {
+    tokens[tokenId] = await getData(tokenId, user);
+  };
+
+  return tokens;
 }
