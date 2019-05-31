@@ -89,5 +89,30 @@ describe('Token', () => {
     });
   });
 
+  describe('Enumerate', () => {
+
+    before(async () => {
+      await chai.request(app).put(`/Token/1234`).auth('pizza', '');
+      await chai.request(app).put(`/Token/5678`).auth('pizza', '');
+      const response = await chai.request(app).put(`/Token/${token.id}`).send(token.data).auth('pizza', '');
+    });
+
+    after(async () => {
+      await chai.request(app).delete(`/Token/1234`).auth('pizza', '');
+      await chai.request(app).delete(`/Token/5678`).auth('pizza', '');
+      await chai.request(app).delete(`/Token/${token.id}`).auth('pizza', '');
+    });
+
+    it('Enumerates owned tokens', async () => {
+      const response = await chai.request(app).get(`/Token/`).auth('pizza', '');
+      assert.equal(response.status, 200);
+
+      assert.isTrue(response.body.data.hasOwnProperty('1234'));
+      assert.isTrue(response.body.data.hasOwnProperty('5678'));
+      assert.deepEqual(response.body.data[token.id], token.data);
+    });
+
+  });
+
 });
 
