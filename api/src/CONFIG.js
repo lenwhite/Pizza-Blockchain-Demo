@@ -5,7 +5,11 @@ const CONFIG = {
 
   flour: {
     address: '0xf0e83d2b690604123a487b44439a934d498e51ad',
-  }
+  },
+
+  cheese: {
+    address: '0xf0e83d2b690604123a487b44439a934d498e51ad',
+  },
 };
 
 export default CONFIG;
