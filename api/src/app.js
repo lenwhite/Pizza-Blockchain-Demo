@@ -2,12 +2,14 @@ import express from 'express';
 import tokenRouter from './routes/Token.route';
 import basicAuth from 'express-basic-auth';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 import CONFIG from './CONFIG';
 
 const app = express();
 const port = process.env.PORT || 6000;
 
+app.use(cors());
 app.use(function (req, res, next) {
   // Website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -25,11 +27,7 @@ app.use(function (req, res, next) {
 app.use(basicAuth({
   // custom authorizer that only checks that userName matches any entity defined in config file
   authorizer: (userName) => {
-
-    if (CONFIG[userName])
-      return true;
-
-    return false;
+    return (CONFIG[userName]);
   }
 }));
 
@@ -38,7 +36,6 @@ app.use(bodyParser.json({ type: 'application/json' }));
 //app.use(bodyParser.urlencoded({extended: true}));
 //app.use(bodyParser.text());
 
-app.get('/', (req, res) => res.send('Hello World!'));
 app.use('/Token', tokenRouter);
 
 app.listen(port, () => console.log(`API listening on port ${port}!`));
