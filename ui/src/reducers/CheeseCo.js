@@ -2,15 +2,15 @@ import { combineReducers } from 'redux';
 import { createActions, handleActions } from 'redux-actions';
 
 export const ADD_CHEESE = 'ADD_CHEESE';
-export const GET_CHEESES = 'GET_CHEESES';
-export const { addCheese, getCheeses } = createActions({
+export const REFRESH_CHEESES = 'REFRESH_CHEESES';
+export const { addCheese, refreshCheeses } = createActions({
   [ADD_CHEESE]: ({ id, ...data }) => ({ id, data: data }),
-  [GET_CHEESES]: shipments => ({ shipments }),
+  [REFRESH_CHEESES]: shipments => ({ shipments }),
 });
 
 const shipments = handleActions({
   [addCheese]: (state, { payload: { id, data } }) => ({ ...state, [id]: data, }),
-  [getCheeses]: (state, { payload: { shipments } }) => ({ ...shipments })
+  [REFRESH_CHEESES]: (state, { payload: { shipments } }) => ({ ...shipments }),
 }, {});
 
 const CheeseCo = combineReducers({

@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import { Container, Step, Header, Menu, Label, Tab, Placeholder } from 'semantic-ui-react';
+import { Step, Header, Menu, Label, Tab, Placeholder } from 'semantic-ui-react';
 
 
 const ViewTrack = () => (
@@ -48,7 +48,7 @@ const ViewTrack = () => (
   </Tab.Pane>
 )
 
-class CheeseCoTrack extends Component {
+class CheeseCoTrack extends React.Component {
 
   render() {
 

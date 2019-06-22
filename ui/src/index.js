@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux';
@@ -16,7 +16,7 @@ import Overview from './Overview/Overview';
 
 
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <Provider store={store}>

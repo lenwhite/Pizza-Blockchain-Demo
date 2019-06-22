@@ -4,7 +4,7 @@ import { Menu, Header, Form, Tab, Label, Button, Modal, Input } from 'semantic-u
 import { serializeForm } from '../utils';
 
 import { connect } from 'react-redux';
-import { addCheese } from '../reducers/CheeseCo';
+import { addCheese, refreshCheeses } from '../reducers/CheeseCo';
 
 
 const AddShipment = props => (
@@ -65,45 +65,54 @@ const ViewShipment = ({ shipment, id }) => (
   </>
 )
 
-const CheeseCoShipments = props => {
+class CheeseCoShipments extends React.Component {
 
-  const handleAdd = e => {
-    e.preventDefault();
-    let formData = serializeForm(e.target);
-
-    console.log(formData);
-    props.addCheese(formData);
-  };
-
-  const panes = [
-    {
-      menuItem: 'Add Shipment', render: () => <Tab.Pane>
-        <AddShipment handleAdd={handleAdd} />
-      </Tab.Pane>
-    }
-  ];
-
-  for (let [key, value] of Object.entries(props.shipments)) {
-    panes.push({
-      menuItem: <Menu.Item key={key}>
-        {value.name}<Label>{key.slice(-6)}</Label>
-      </Menu.Item>,
-      render: () => <Tab.Pane key={key}>
-        <ViewShipment shipment={value} id={key} />
-      </Tab.Pane>
-    });
+  componentWillMount() {
+    this.props.refreshCheeses();
   }
 
-  return <>
-    <Header as='h1' dividing>
-      Shipments
-        <Header.Subheader>Add and view prepared shipments</Header.Subheader>
-    </Header>
-    <Tab menu={{ fluid: true, vertical: true, tabular: true }} panes={panes} />
-  </>
+  render() {
+
+    let props = this.props;
+
+    const handleAdd = e => {
+      e.preventDefault();
+      let formData = serializeForm(e.target);
+
+      console.log(formData);
+      props.addCheese(formData);
+    };
+
+    const panes = [
+      {
+        menuItem: 'Add Shipment', render: () => <Tab.Pane>
+          <AddShipment handleAdd={handleAdd} />
+        </Tab.Pane>
+      }
+    ];
+
+    for (let [key, value] of Object.entries(props.shipments)) {
+      panes.push({
+        menuItem: <Menu.Item key={key}>
+          {value.name}<Label>{key.slice(-6)}</Label>
+        </Menu.Item>,
+        render: () => <Tab.Pane key={key}>
+          <ViewShipment shipment={value} id={key} />
+        </Tab.Pane>
+      });
+    }
+
+    return <>
+      <Header as='h1' dividing>
+        Shipments
+          <Header.Subheader>Add and view prepared shipments</Header.Subheader>
+      </Header>
+      <Tab menu={{ fluid: true, vertical: true, tabular: true }} panes={panes} />
+    </>
+  }
 }
 
 export default connect(
   (state) => ({ shipments: state.CheeseCo.shipments }),
-  { addCheese }
+  { addCheese, refreshCheeses }
 )(CheeseCoShipments);

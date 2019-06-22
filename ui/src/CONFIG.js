@@ -13,6 +13,7 @@ const CONFIG = {
   API: {
     port: process.env.API_PORT || 3001, // defaults to dev port
     MINT_TOKEN: (tokenId) => (`/Token/${tokenId}`),
+    LIST_TOKENS: () => (`/Token/`),
   }
 };
 

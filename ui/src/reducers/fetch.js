@@ -1,4 +1,4 @@
-import { createAction, createActions } from 'redux-actions';
+import { createActions } from 'redux-actions';
 
 export const FetchStatus = {
   READY: 'READY',

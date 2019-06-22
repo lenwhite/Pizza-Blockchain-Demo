@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Grid, Container, Header, Segment, Menu, List } from 'semantic-ui-react';
 
 const Ledger = ({ party }) => (<>
