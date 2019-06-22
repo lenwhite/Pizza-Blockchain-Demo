@@ -1,4 +1,4 @@
-FROM node:latest as builder
+FROM node:11-alpine as builder
 RUN mkdir /app
 WORKDIR /app
 RUN mkdir /src /public
@@ -8,7 +8,7 @@ COPY ./public ./public
 RUN npm install
 RUN npm run build
 
-FROM node:latest
+FROM node:11-alpine
 RUN mkdir /app
 WORKDIR /app
 RUN npm install -g serve@latest
