@@ -41,5 +41,5 @@ app.use(bodyParser.json({ type: 'application/json' }));
 app.get('/', (req, res) => res.send('Hello World!'));
 app.use('/Token', tokenRouter);
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`API listening on port ${port}!`));
 
