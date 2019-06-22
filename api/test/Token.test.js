@@ -94,7 +94,7 @@ describe('Token', () => {
     before(async () => {
       await chai.request(app).put(`/Token/1234`).auth('pizza', '');
       await chai.request(app).put(`/Token/5678`).auth('pizza', '');
-      const response = await chai.request(app).put(`/Token/${token.id}`).send(token.data).auth('pizza', '');
+      await chai.request(app).put(`/Token/${token.id}`).send(token.data).auth('pizza', '');
     });
 
     after(async () => {
