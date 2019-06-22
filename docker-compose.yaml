@@ -6,6 +6,8 @@ services:
     build: ./ui
     ports:
      - "80:80"
+    environment:
+      API_PORT: 4000
     logging:
       options:
         max-size: 10m

@@ -4,7 +4,7 @@ import { Menu, Header, Form, Tab, Label, Button, Modal, Input } from 'semantic-u
 import { serializeForm } from '../utils';
 
 import { connect } from 'react-redux';
-import { addShipment } from '../reducers/CheeseCo';
+import { addCheese } from '../reducers/CheeseCo';
 
 
 const AddShipment = props => (
@@ -56,6 +56,7 @@ const ViewShipment = ({ shipment }) => (
         </Form>
       </Modal.Content>
     </Modal>
+    <Button>Remove</Button>
   </>
 )
 
@@ -66,7 +67,7 @@ const CheeseCoShipments = props => {
     let formData = serializeForm(e.target);
 
     console.log(formData);
-    props.addShipment(formData);
+    props.addCheese(formData);
   };
 
   const panes = [
@@ -97,5 +98,5 @@ const CheeseCoShipments = props => {
 
 export default connect(
   (state) => ({ shipments: state.CheeseCo.shipments }),
-  { addShipment }
+  { addCheese }
 )(CheeseCoShipments);
