@@ -1,3 +1,12 @@
+# UI
+
+Created with react, redux, and redux-saga.
+
+API urls are defined in `CONFIG.js`. They are called from from `sagas/api.sagas.js`
+as an adapter. `sagas/CheeseCo.saga.js` etc. define party-specific sagas.
+
+# Default readme
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
