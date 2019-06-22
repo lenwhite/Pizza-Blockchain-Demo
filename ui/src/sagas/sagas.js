@@ -14,12 +14,12 @@ import { ADD_CHEESE } from '../reducers/CheeseCo';
 function* watchAddCheese() { yield takeEvery(ADD_CHEESE, addCheese); };
 
 function* addCheese(action) {
-  let url = new URL(CONFIG.API.MINT_TOKEN(action.payload.shipment.id), window.location.href);
+  let url = new URL(CONFIG.API.MINT_TOKEN(action.payload.id), window.location.href);
   url.port = CONFIG.API.port;
 
   yield put(postJson(
     url,
-    JSON.stringify(action.payload.shipment),
+    JSON.stringify(action.payload.data),
     'cheese',
     { method: 'PUT' }
   ));

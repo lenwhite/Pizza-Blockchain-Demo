@@ -35,12 +35,17 @@ const AddShipment = props => (
   </Form>
 );
 
-const ViewShipment = ({ shipment }) => (
+const ViewShipment = ({ shipment, id }) => (
   <>
-    {shipment && Object.entries(shipment).map((entry, index) => (entry[1] && <div key={index}>
-      <Header sub>{entry[0]}</Header>
-      <p>{entry[1]}</p>
+    {/* Lazy way of iterating through all properties of the shipment
+        for display. TODO: replace with something better
+     */}
+    <Header>{id}</Header>
+    {shipment && Object.entries(shipment).map(([key, value], index) => (value && <div key={index}>
+      <Header sub>{key}</Header>
+      <p>{value}</p>
     </div>))}
+
     <Button>Edit</Button>
     <Modal trigger={<Button>Transfer</Button>}>
       <Modal.Header>Select party to transfer shipment to</Modal.Header>
@@ -78,14 +83,16 @@ const CheeseCoShipments = props => {
     }
   ];
 
-  panes.push(...props.shipments.map((shipment, index) => ({
-    menuItem: <Menu.Item key={index}>
-      {shipment.name}<Label>{shipment.id.slice(-6)}</Label>
-    </Menu.Item>,
-    render: () => <Tab.Pane key={index}>
-      <ViewShipment shipment={shipment} />
-    </Tab.Pane>
-  })));
+  for (let [key, value] of Object.entries(props.shipments)) {
+    panes.push({
+      menuItem: <Menu.Item key={key}>
+        {value.name}<Label>{key.slice(-6)}</Label>
+      </Menu.Item>,
+      render: () => <Tab.Pane key={key}>
+        <ViewShipment shipment={value} id={key} />
+      </Tab.Pane>
+    });
+  }
 
   return <>
     <Header as='h1' dividing>
