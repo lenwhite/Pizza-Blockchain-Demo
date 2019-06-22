@@ -7,7 +7,7 @@ services:
       context: ./ui
       dockerfile: dev.Dockerfile
     volumes:
-      - ./ui/src:/app/src/delegated
+      - ./ui/src:/app/src
     ports:
       - "3000:3000"
 
