@@ -4,7 +4,7 @@ import { Menu, Header, Form, Tab, Label, Button, Modal, Input } from 'semantic-u
 import { serializeForm } from '../utils';
 
 import { connect } from 'react-redux';
-import { addCheese, refreshCheeses } from '../reducers/CheeseCo';
+import { addCheese, refreshCheeses, deleteCheese } from '../reducers/CheeseCo';
 
 
 const AddShipment = props => (
@@ -35,7 +35,7 @@ const AddShipment = props => (
   </Form>
 );
 
-const ViewShipment = ({ shipment, id }) => (
+const ViewShipment = ({ shipment, id, remove }) => (
   <>
     {/* Lazy way of iterating through all properties of the shipment
         for display. TODO: replace with something better
@@ -46,7 +46,7 @@ const ViewShipment = ({ shipment, id }) => (
       <p>{value}</p>
     </div>))}
 
-    <Button>Edit</Button>
+    {/*<Button>Edit</Button>*/}
     <Modal trigger={<Button>Transfer</Button>}>
       <Modal.Header>Select party to transfer shipment to</Modal.Header>
       <Modal.Content>
@@ -61,9 +61,9 @@ const ViewShipment = ({ shipment, id }) => (
         </Form>
       </Modal.Content>
     </Modal>
-    <Button>Remove</Button>
+    <Button onClick={remove.bind(null, id)}>Remove</Button>
   </>
-)
+);
 
 class CheeseCoShipments extends React.Component {
 
@@ -97,7 +97,7 @@ class CheeseCoShipments extends React.Component {
           {value.name}<Label>{key.slice(-6)}</Label>
         </Menu.Item>,
         render: () => <Tab.Pane key={key}>
-          <ViewShipment shipment={value} id={key} />
+          <ViewShipment shipment={value} id={key} remove={props.deleteCheese} />
         </Tab.Pane>
       });
     }
@@ -114,5 +114,5 @@ class CheeseCoShipments extends React.Component {
 
 export default connect(
   (state) => ({ shipments: state.CheeseCo.shipments }),
-  { addCheese, refreshCheeses }
+  { addCheese, refreshCheeses, deleteCheese }
 )(CheeseCoShipments);

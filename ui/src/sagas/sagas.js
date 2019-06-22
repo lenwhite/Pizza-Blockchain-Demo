@@ -1,4 +1,4 @@
-import { watchAddCheese, watchRefreshCheeses } from './CheeseCo.sagas';
+import { watchAddCheese, watchRefreshCheeses, watchDeleteCheese } from './CheeseCo.sagas';
 
 import { all } from 'redux-saga/effects';
 
@@ -6,5 +6,6 @@ export default function* rootSaga() {
   yield all([
     watchAddCheese(),
     watchRefreshCheeses(),
+    watchDeleteCheese(),
   ]);
 }

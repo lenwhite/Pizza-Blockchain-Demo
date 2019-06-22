@@ -11,6 +11,14 @@ export const mintToken = async (id, data, auth) => {
 
 export const listTokens = async (auth) => {
   return fetchApi(CONFIG.API.LIST_TOKENS, { method: 'GET' }, auth);
+};
+
+export const burnToken = async (id, auth) => {
+  return fetchApi(
+    CONFIG.API.BURN_TOKEN.bind(null, id),
+    { method: 'DELETE' },
+    auth
+  );
 }
 
 async function postJson(path, body, auth, fetchOptions = {}) {

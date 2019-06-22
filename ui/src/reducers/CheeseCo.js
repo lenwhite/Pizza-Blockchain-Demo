@@ -3,14 +3,22 @@ import { createActions, handleActions } from 'redux-actions';
 
 export const ADD_CHEESE = 'ADD_CHEESE';
 export const REFRESH_CHEESES = 'REFRESH_CHEESES';
-export const { addCheese, refreshCheeses } = createActions({
+export const DELETE_CHEESE = 'DELETE_CHEESE';
+
+export const { addCheese, refreshCheeses, deleteCheese } = createActions({
   [ADD_CHEESE]: ({ id, ...data }) => ({ id, data: data }),
   [REFRESH_CHEESES]: shipments => ({ shipments }),
+  [DELETE_CHEESE]: id => ({ id }),
 });
 
 const shipments = handleActions({
   [addCheese]: (state, { payload: { id, data } }) => ({ ...state, [id]: data, }),
-  [REFRESH_CHEESES]: (state, { payload: { shipments } }) => ({ ...shipments }),
+  [refreshCheeses]: (state, { payload: { shipments } }) => ({ ...shipments }),
+  [deleteCheese]: (state, { payload: { id } }) => {
+    let next = { ...state };
+    delete next[id];
+    return next;
+  },
 }, {});
 
 const CheeseCo = combineReducers({
