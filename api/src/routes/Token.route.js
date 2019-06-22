@@ -107,7 +107,7 @@ router.post('/:tokenId', async (req, res, next) => {
 /**
  * Expects to address { address: to } in req.body
  */
-router.post('/transfer/:tokenId', async (req, res, next) => {
+router.post('/:tokenId/transfer', async (req, res, next) => {
   const { tokenId } = req.params;
   const { address } = req.body;
   const { user } = req.auth;

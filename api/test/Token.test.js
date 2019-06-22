@@ -74,8 +74,8 @@ describe('Token', () => {
       await chai.request(app).put(`/Token/${token.id}`).auth('pizza', '');
     });
 
-    it('Mint and transfer a token', async () => {
-      const response = await chai.request(app).post(`/Token/transfer/${token.id}`)
+    it('Transfer a token', async () => {
+      const response = await chai.request(app).post(`/Token/${token.id}/transfer`)
         .auth('pizza', '')
         .send({
           address: CONFIG.flour.address,
