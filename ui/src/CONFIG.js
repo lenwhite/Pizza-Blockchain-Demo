@@ -15,7 +15,8 @@ const CONFIG = {
     MINT_TOKEN: (tokenId) => (`/Token/${tokenId}`),
     LIST_TOKENS: () => (`/Token/`),
     BURN_TOKEN: (tokenId) => (`/Token/${tokenId}`),
-  }
+    TRANSFER_TOKEN: (tokenId) => (`/Token/${tokenId}/transfer`),
+  },
 };
 
 export default CONFIG;

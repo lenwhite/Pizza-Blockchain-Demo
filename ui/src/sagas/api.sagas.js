@@ -19,7 +19,15 @@ export const burnToken = async (id, auth) => {
     { method: 'DELETE' },
     auth
   );
-}
+};
+
+export const sendToken = async (id, toAddress, auth) => {
+  return postJson(
+    CONFIG.API.TRANSFER_TOKEN.bind(null, id),
+    JSON.stringify({ address: toAddress }),
+    auth
+  );
+};
 
 async function postJson(path, body, auth, fetchOptions = {}) {
   return fetchApi(

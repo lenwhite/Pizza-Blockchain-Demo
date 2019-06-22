@@ -18,7 +18,7 @@ const token = {
     foo: `qwerty`,
     name: `Vic Phu`
   },
-}
+};
 
 describe('Token', () => {
 

@@ -1,4 +1,4 @@
-import { watchAddCheese, watchRefreshCheeses, watchDeleteCheese } from './CheeseCo.sagas';
+import { watchAddCheese, watchRefreshCheeses, watchDeleteCheese, watchSendCheese } from './CheeseCo.sagas';
 
 import { all } from 'redux-saga/effects';
 
@@ -7,5 +7,6 @@ export default function* rootSaga() {
     watchAddCheese(),
     watchRefreshCheeses(),
     watchDeleteCheese(),
+    watchSendCheese(),
   ]);
 }

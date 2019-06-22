@@ -1,7 +1,9 @@
-import { ADD_CHEESE, REFRESH_CHEESES, refreshCheeses, DELETE_CHEESE } from '../reducers/CheeseCo';
+import {
+  ADD_CHEESE, REFRESH_CHEESES, refreshCheeses, DELETE_CHEESE, SEND_CHEESE
+} from '../reducers/CheeseCo';
 
-import { put, call, takeEvery } from 'redux-saga/effects';
-import { mintToken, listTokens, burnToken } from './api.sagas';
+import { put, call, takeEvery, takeLatest } from 'redux-saga/effects';
+import { mintToken, listTokens, burnToken, sendToken } from './api.sagas';
 
 export function* watchAddCheese() { yield takeEvery(ADD_CHEESE, addCheese); };
 
@@ -14,7 +16,7 @@ function* addCheese(action) {
   }
 };
 
-export function* watchRefreshCheeses() { yield takeEvery(REFRESH_CHEESES, getCheeses); };
+export function* watchRefreshCheeses() { yield takeLatest(REFRESH_CHEESES, getCheeses); };
 
 function* getCheeses({ payload: { shipments } }) {
   if (shipments) return;
@@ -36,4 +38,14 @@ function* deleteCheese({ payload: { id } }) {
   } catch (error) {
 
   }
-}
+};
+
+export function* watchSendCheese() { yield takeEvery(SEND_CHEESE, sendCheese) }
+
+function* sendCheese({ payload: { id, toAddress } }) {
+  try {
+    yield call(sendToken, id, toAddress, 'cheese');
+  } catch (error) {
+
+  }
+};

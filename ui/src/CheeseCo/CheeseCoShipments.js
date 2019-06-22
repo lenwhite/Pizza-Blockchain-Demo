@@ -4,7 +4,10 @@ import { Menu, Header, Form, Tab, Label, Button, Modal, Input } from 'semantic-u
 import { serializeForm } from '../utils';
 
 import { connect } from 'react-redux';
-import { addCheese, refreshCheeses, deleteCheese } from '../reducers/CheeseCo';
+import {
+  addCheese, refreshCheeses, deleteCheese, sendCheese
+} from '../reducers/CheeseCo';
+import CONFIG from '../CONFIG';
 
 
 const AddShipment = props => (
@@ -35,35 +38,51 @@ const AddShipment = props => (
   </Form>
 );
 
-const ViewShipment = ({ shipment, id, remove }) => (
-  <>
-    {/* Lazy way of iterating through all properties of the shipment
-        for display. TODO: replace with something better
-     */}
-    <Header>{id}</Header>
-    {shipment && Object.entries(shipment).map(([key, value], index) => (value && <div key={index}>
-      <Header sub>{key}</Header>
-      <p>{value}</p>
-    </div>))}
+class ViewShipment extends React.Component {
 
-    {/*<Button>Edit</Button>*/}
-    <Modal trigger={<Button>Transfer</Button>}>
-      <Modal.Header>Select party to transfer shipment to</Modal.Header>
-      <Modal.Content>
-        <Form>
-          <Form.Select label='Party' name='transferTo' options={[
-            { text: 'Pizza Co.', value: 'Pizza Co.' },
-            { text: 'Truck Co.', value: 'Truck Co.' },
-            { text: 'Ship Co.', value: 'Ship Co.' },
-          ]}>
-          </Form.Select>
-          <Form.Button>Transfer Shipment</Form.Button>
-        </Form>
-      </Modal.Content>
-    </Modal>
-    <Button onClick={remove.bind(null, id)}>Remove</Button>
-  </>
-);
+  render() {
+
+    const { shipment, id, handleDelete, handleTransfer } = this.props;
+
+    const submitForm = e => {
+      e.preventDefault();
+      handleTransfer(id, this.state.toAddress);
+    };
+
+    return (
+      <>
+        {/* Lazy way of iterating through all properties of the shipment
+          for display. TODO: replace with something better
+        */}
+        <Header>{id}</Header>
+        {shipment && Object.entries(shipment).map(([key, value], index) => (value && <div key={index}>
+          <Header sub>{key}</Header>
+          <p>{value}</p>
+        </div>))}
+
+        {/*<Button>Edit</Button>*/}
+        <Modal trigger={<Button>Transfer</Button>}>
+          <Modal.Header>Transfer shipment</Modal.Header>
+          <Modal.Content>
+            <Form onSubmit={submitForm}>
+              <Form.Select selection label="Select counterparty to transfer shipment to:"
+                placeholder="Transfer to" name='transferTo' required
+                options={[
+                  { key: 'pizza', text: 'Pizza Co.', value: CONFIG.pizza.address },
+                  { key: 'flour', text: 'Flour Co.', value: CONFIG.flour.address },
+                  { key: 'ship', text: 'Ship Co.', value: 'Ship Co.' },
+                ]}
+                onChange={(e, { value }) => this.setState({ toAddress: value })}
+              />
+              <Form.Button>Transfer Shipment</Form.Button>
+            </Form>
+          </Modal.Content>
+        </Modal>
+        <Button onClick={handleDelete.bind(null, id)}>Remove</Button>
+      </>
+    )
+  }
+}
 
 class CheeseCoShipments extends React.Component {
 
@@ -78,8 +97,6 @@ class CheeseCoShipments extends React.Component {
     const handleAdd = e => {
       e.preventDefault();
       let formData = serializeForm(e.target);
-
-      console.log(formData);
       props.addCheese(formData);
     };
 
@@ -97,7 +114,10 @@ class CheeseCoShipments extends React.Component {
           {value.name}<Label>{key.slice(-6)}</Label>
         </Menu.Item>,
         render: () => <Tab.Pane key={key}>
-          <ViewShipment shipment={value} id={key} remove={props.deleteCheese} />
+          <ViewShipment shipment={value} id={key}
+            handleDelete={props.deleteCheese}
+            handleTransfer={props.sendCheese}
+          />
         </Tab.Pane>
       });
     }
@@ -114,5 +134,5 @@ class CheeseCoShipments extends React.Component {
 
 export default connect(
   (state) => ({ shipments: state.CheeseCo.shipments }),
-  { addCheese, refreshCheeses, deleteCheese }
+  { addCheese, refreshCheeses, deleteCheese, sendCheese }
 )(CheeseCoShipments);
